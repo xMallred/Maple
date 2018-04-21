@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -130,6 +131,10 @@ public class MapsActivity extends AppCompatActivity
 
     private Handler _handler;
     private Runnable _refresher;
+    String first_name;
+    String email;
+    String picture;
+    String fb;
 
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
@@ -150,7 +155,14 @@ public class MapsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            first_name = extras.getString("name");
+            email = extras.getString("email");
+            picture = extras.getString("picture");
+            fb = extras.getString("fb");
+            //The key argument here must match that used in the other activity
+        }
         currentNum = 0;
         previousNum = 0;
         // Retrieve location and camera position from saved instance state.
@@ -184,6 +196,24 @@ public class MapsActivity extends AppCompatActivity
         Task<StitchClient> stitchClientTask = StitchClientFactory.create(getApplicationContext(), "eventfinder-wkdhy");
         stitchClient = stitchClientTask.getResult();
         login();
+    }
+
+    public static final String EXTRA_MESSAGE = "First Last";
+
+    /** Called when the user taps the Send button */
+    public void sendMessage(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        Bundle bun = new Bundle();
+        bun.putString("name", first_name);
+        bun.putString("email", email);
+        bun.putString("picture",picture);
+        bun.putString("fb", fb);
+        intent.putExtras(bun);
+        startActivity(intent);
+
     }
 
     public void login()

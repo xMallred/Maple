@@ -98,9 +98,13 @@ public class MainActivity extends AppCompatActivity {
 
                         Intent myintent = new Intent(MainActivity.this, MapsActivity.class);
                         Bundle bun = new Bundle();
-                        bun.putString("name", first_name);
-                        bun.putString("email", email);
-                        bun.putString("picture",profilepicURL);
+                        //bun.putString("name", first_name);
+                        //bun.putString("email", email);
+                        //bun.putString("picture",profilepicURL);
+                        //bun.putString("fb", loginResult.getAccessToken().getToken());
+                        bun.putString("name", "Stephen Ruske");
+                        bun.putString("email", "sruske88@gmail.com");
+                        bun.putString("picture","https://scontent.fhou1-2.fna.fbcdn.net/v/t1.0-9/27073213_10159801855035461_7891170632545584840_n.jpg?_nc_cat=0&oh=04680a08d8d2f58cf5392793bd11c50b&oe=5B4EE64F");
                         bun.putString("fb", loginResult.getAccessToken().getToken());
                         myintent.putExtras(bun);
                         MainActivity.this.startActivity(myintent);
