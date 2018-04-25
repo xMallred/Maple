@@ -117,7 +117,7 @@ public class MapsActivity extends AppCompatActivity
 
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
-    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private final LatLng mDefaultLocation = new LatLng(-96.3435787, 30.6235567);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
@@ -177,6 +177,14 @@ public class MapsActivity extends AppCompatActivity
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
 
+        //Set the fragment initially
+        ListFragment fragment = new ListFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.My_Container_1_ID, fragment);
+        fragmentTransaction.commit();
+
+
 
         // Construct a GeoDataClient.
         mGeoDataClient = Places.getGeoDataClient(this, null);
@@ -206,6 +214,45 @@ public class MapsActivity extends AppCompatActivity
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
+        Bundle bun = new Bundle();
+        bun.putString("name", first_name);
+        bun.putString("email", email);
+        bun.putString("picture",picture);
+        bun.putString("fb", fb);
+        intent.putExtras(bun);
+        startActivity(intent);
+
+    }
+
+    /** Called when the user taps the Send button */
+    public void filter(View view) {
+        Intent intent = new Intent(this, FilterActivity.class);
+
+        Bundle bun = new Bundle();
+        bun.putString("name", first_name);
+        bun.putString("email", email);
+        bun.putString("picture",picture);
+        bun.putString("fb", fb);
+        intent.putExtras(bun);
+        startActivity(intent);
+
+    }
+    /** Called when the user taps the Send button */
+    public void feedback(View view) {
+        Intent intent = new Intent(this, EmailActivity.class);
+
+        Bundle bun = new Bundle();
+        bun.putString("name", first_name);
+        bun.putString("email", email);
+        bun.putString("picture",picture);
+        bun.putString("fb", fb);
+        intent.putExtras(bun);
+        startActivity(intent);
+
+    }/** Called when the user taps the Send button */
+    public void help(View view) {
+        Intent intent = new Intent(this, HelpActivity.class);
+
         Bundle bun = new Bundle();
         bun.putString("name", first_name);
         bun.putString("email", email);

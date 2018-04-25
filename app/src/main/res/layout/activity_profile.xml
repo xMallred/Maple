@@ -15,7 +15,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="87dp"
         android:padding="5dp"
-        android:src="@drawable/defprofile"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

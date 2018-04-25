@@ -49,7 +49,8 @@ public class ProfileActivity extends AppCompatActivity {
                 .build();
 
         ImageView mIcon = (ImageView) findViewById(R.id.ivProfile);
-        Picasso.with(this).load(picture).placeholder(R.drawable.defprofile).fit().transform(transformation).into(mIcon);
+        Picasso.with(this).load(picture).placeholder(R.drawable.defprofile).resize(500,500).transform(transformation).into(mIcon);
+
 
         Button mFollow = (Button) findViewById(R.id.btnFollow);
             if (mFollow.getText().toString().equalsIgnoreCase("View Events")) {
