@@ -39,7 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
             // Get the Intent that started this activity and extract the string
             Intent intent = getIntent();
-            String message = intent.getStringExtra(MapsActivity.EXTRA_MESSAGE);
 
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)

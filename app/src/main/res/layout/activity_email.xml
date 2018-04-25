@@ -5,63 +5,87 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".FilterActivity">
-    <TextView
+
+        <TextView
         android:id="@+id/contact_form_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="5dp"
-        android:text="Viral Android"
-        android:textColor="#ce3232"
-        android:textSize="40sp"
-        android:typeface="serif" />
+            android:layout_marginTop="16dp"
+        android:text="Leave us some feedback.
+            Things that are good or
+                bad, we want to know!"
+        android:textColor="#2a14e9"
+        android:textSize="30sp"
+            android:typeface="serif"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/editText2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Name"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Phone"
-        android:inputType="phone" />
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_form_title" />
 
     <EditText
+        android:id="@+id/editText3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:hint="Phone"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
+    <EditText
+        android:id="@+id/editText4"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
+        android:breakStrategy="balanced"
+        android:fitsSystemWindows="true"
         android:gravity="top"
         android:hint="Your Message"
-        android:fitsSystemWindows="true"
-        android:breakStrategy="balanced"
         android:inputType="textMultiLine"
+        android:padding="5dp"
         android:singleLine="false"
-        android:padding="5dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorPrimaryDark"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="8dp"
+        android:background="#099efa"
         android:elevation="4dp"
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
         android:text="Submit"
-        android:textColor="#fff" />
+        android:textColor="#fff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText4" />
     </android.support.constraint.ConstraintLayout>

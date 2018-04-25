@@ -6,15 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".HelpActivity">
 
-    <EditText
+    <TextView
         android:id="@+id/helpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
         android:inputType="textMultiLine"
         android:text="The help page is currently being tweaked..."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="85dp"
         tools:layout_marginTop="100dp" />
 </android.support.constraint.ConstraintLayout>

@@ -177,13 +177,6 @@ public class MapsActivity extends AppCompatActivity
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
 
-        //Set the fragment initially
-        ListFragment fragment = new ListFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.My_Container_1_ID, fragment);
-        fragmentTransaction.commit();
-
 
 
         // Construct a GeoDataClient.
@@ -204,9 +197,21 @@ public class MapsActivity extends AppCompatActivity
         Task<StitchClient> stitchClientTask = StitchClientFactory.create(getApplicationContext(), "eventfinder-wkdhy");
         stitchClient = stitchClientTask.getResult();
         login();
+
+        //
+        // Change the events being passed to valid arraylist
+        //
+        extras.putStringArrayList("eventList", listOfEvents);
+        //Set the fragment initially
+        ListFragment fragment = new ListFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.My_Container_1_ID, fragment);
+        fragmentTransaction.commit();
+
     }
 
-    public static final String EXTRA_MESSAGE = "First Last";
+   // public static final String EXTRA_MESSAGE = "First Last";
 
     /** Called when the user taps the Send button */
     public void sendMessage(View view) {

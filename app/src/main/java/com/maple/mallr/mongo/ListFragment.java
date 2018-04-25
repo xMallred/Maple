@@ -43,13 +43,17 @@ public class ListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-
+        ArrayList<String> listOfEvents;
         lv = view.findViewById(R.id.lv);
+            //listOfEvents = savedInstanceState.getStringArrayList("eventList");
+
+
         String[] eventText = {"Event 1", "Event 2", "event 3",
                 "event 4", "etc"};
 
         List<String> eventList = new ArrayList<>(Arrays.asList(eventText));
         final ArrayAdapter<String> listViewArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, eventList);
+// final ArrayAdapter<String> listViewArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, listOfEvents);
 
         lv.setAdapter(listViewArrayAdapter);
 
