@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         //Tutorial First run
 
 
-        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
-        if (isFirstRun) {
+        //boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        //if (isFirstRun) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent);
 
@@ -95,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
                     .putBoolean("isFirstRun", false)
                     .apply();
 
-        }
+            
+
+       // }
 
 
 
