@@ -17,6 +17,6 @@
         android:text="Filters"
         android:textColor="@color/cardview_dark_background"
         android:textSize="75sp" />
-    
+
 
 </LinearLayout>
