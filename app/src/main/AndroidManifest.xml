@@ -58,8 +58,16 @@
         </activity>
         <activity
             android:name=".MapsActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ProfileActivity"></activity>
-    </application>
+        <activity android:name=".ProfileActivity"
+            android:label="ProfileActivity"/>
+        <activity android:name=".EmailActivity"
+            android:label="EmailActivity"/>
+        <activity android:name=".HelpActivity"
+            android:label="@string/title_activity_help"/>
+        <activity android:name=".FilterActivity"
+            android:label="@string/title_activity_filter"></activity>
 
+    </application>
 </manifest>
