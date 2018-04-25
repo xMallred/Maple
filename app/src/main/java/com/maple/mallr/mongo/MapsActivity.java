@@ -97,6 +97,8 @@ import com.google.gson.Gson.*;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 
+import okhttp3.OkHttpClient;
+
 
 /**
  * An activity that displays a map showing the place at the device's current location.
@@ -148,6 +150,7 @@ public class MapsActivity extends AppCompatActivity
     MongoClient client;
     MongoClient.Collection coll;
     ArrayList<String> listOfEvents = new ArrayList<>();
+    ArrayList<String> nameOfEvents = new ArrayList<>();
 
     int currentNum;
     int previousNum;
@@ -229,7 +232,7 @@ public class MapsActivity extends AppCompatActivity
                 } else {
                     Log.e("stitch", "failed to log in anonymously", task.getException());
                 }
-                //_refresher.run();
+                pullEvents();
                 refreshList();
             }
         });
@@ -260,34 +263,27 @@ public class MapsActivity extends AppCompatActivity
         for(int i = 1; i < tokens.length ; i++)
         {
             String temp = tokens[i];
-            System.out.println(temp);
 
             String id = StringUtils.substringBetween(temp, "id=", ",");
-            System.out.println("id = " + id);
             String title = StringUtils.substringBetween(temp, "title=", ",");
-            System.out.println("title = " + title);
             String venue = StringUtils.substringBetween(temp, "venue=", ",");
-            System.out.println("venue = " + venue);
             String address = StringUtils.substringBetween(temp, "Address=", ",");
-            System.out.println("address = " + address);
             String latitude = StringUtils.substringBetween(temp, "latitude=", ",");
-            System.out.println("latitude = " + latitude);
             String longitude = StringUtils.substringBetween(temp, "longitude=", ",");
-            System.out.println("longitude = " + longitude);
             String eventtype = StringUtils.substringBetween(temp, "EventType=", ",");
-            System.out.println("EventType = " + eventtype);
             String age = StringUtils.substringBetween(temp, "Age=", ",");
-            System.out.println("Age = " + age);
             String date = StringUtils.substringBetween(temp, "Date=", "}");
-            System.out.println("Date = " + date);
+
 
             previousNum = tokens.length-1;
-            if(!listOfEvents.contains(id))
+            if(!nameOfEvents.contains(title))
             {
+                System.out.println(title);
                 currentNum++;
                 double lat = Double.parseDouble(latitude);
                 double log = Double.parseDouble(longitude);
                 listOfEvents.add(id);
+                nameOfEvents.add(title);
 
 
                 if(age.equals("kid")) {
@@ -317,9 +313,8 @@ public class MapsActivity extends AppCompatActivity
                 if(task.isSuccessful()){
                     //Log.d("Stitch", "Number of collections: " + task.getResult());
                     String t = task.getResult().toString();
-                    if(currentNum != previousNum || currentNum ==0) {
-                        String obj = parse(t);
-                    }
+                    String obj = parse(t);
+
 
                 }
                 else {
@@ -462,4 +457,94 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    public void pullEvents()  {
+        System.out.println("here");
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                OkHttpClient client = new OkHttpClient();
+                okhttp3.Request requestMusic = new okhttp3.Request.Builder()
+                        .url("http://api.eventful.com/json/events/search?keywords=music&location=77840&app_key=GCgRf2pzQqXhFTZb").build();
+                eventHelper(client, requestMusic, "music", "Adult");
+                okhttp3.Request requestSports = new okhttp3.Request.Builder()
+                        .url("http://api.eventful.com/json/events/search?keywords=sports&location=77840&app_key=GCgRf2pzQqXhFTZb").build();
+                eventHelper(client, requestSports, "sports", "kid");
+                okhttp3.Request requestOther = new okhttp3.Request.Builder()
+                        .url("http://api.eventful.com/json/events/search?&location=77840&app_key=GCgRf2pzQqXhFTZb").build();
+                eventHelper(client, requestOther, "Other", "kid");
+
+
+    }
+
+    public void eventHelper(OkHttpClient client, okhttp3.Request request,String typee, String agee)
+    {
+        try{
+            okhttp3.Response response = client.newCall(request).execute();
+            String json = response.body().string();
+            JSONObject data = null;
+            try{
+                Integer dataRange = 10;
+                data = new JSONObject(json);
+
+                JSONArray array = data.getJSONObject("events").getJSONArray("event");
+                String title, venue, address, lat, lon, type, age, date;
+
+                for(int i = 0; i < array.length();i++ ) {
+                    JSONObject event = array.getJSONObject(i);
+                    title = event.optString("title");
+                    venue = event.optString("venue_name");
+                    address = event.optString("venue_address");
+                    lat = event.optString("latitude");
+                    lon = event.optString("longitude");
+                    type = typee;
+                    age = agee;
+                    date = event.optString("start_time");
+
+                    final Document updateDoc = new Document();
+                    updateDoc.put("title", title);
+                    updateDoc.put("venue", venue);
+                    updateDoc.put("Address", address);
+                    updateDoc.put("latitude", lat);
+                    updateDoc.put("longitude", lon);
+                    updateDoc.put("EventType", type);
+                    updateDoc.put("Age", age);
+                    updateDoc.put("Date", date);
+
+                    stitchClient.executeFunction("checkdoc",title).addOnCompleteListener(new OnCompleteListener<Object>() {
+                        @Override
+                        public void onComplete(@NonNull Task task){
+                            if(task.isSuccessful()){
+                                String t = task.getResult().toString();
+                                Boolean test = t.equals("org.bson.BsonUndefined@0");
+                                if(test)
+                                {
+                                    coll.insertOne(updateDoc);
+                                }
+                            }
+                            else {
+                                Log.e("stitch", "failed to get number of collections", task.getException());
+                            }
+
+                        }
+                    });
+                }
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
