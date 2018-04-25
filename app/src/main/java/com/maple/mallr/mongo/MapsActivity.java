@@ -151,6 +151,7 @@ public class MapsActivity extends AppCompatActivity
     MongoClient.Collection coll;
     ArrayList<String> listOfEvents = new ArrayList<>();
     ArrayList<String> nameOfEvents = new ArrayList<>();
+    ArrayList<String> list_event = new ArrayList<>();
 
     int currentNum;
     int previousNum;
@@ -201,16 +202,17 @@ public class MapsActivity extends AppCompatActivity
         stitchClient = stitchClientTask.getResult();
         login();
 
-        //
-        // Change the events being passed to valid arraylist
-        //
-        extras.putStringArrayList("eventList", listOfEvents);
-        //Set the fragment initially
         ListFragment fragment = new ListFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.My_Container_1_ID, fragment);
         fragmentTransaction.commit();
+        //
+        // Change the events being passed to valid arraylist
+        //
+        extras.putStringArrayList("eventList", listOfEvents);
+        //Set the fragment initially
+
 
     }
 
@@ -328,7 +330,6 @@ public class MapsActivity extends AppCompatActivity
             previousNum = tokens.length-1;
             if(!nameOfEvents.contains(title))
             {
-                System.out.println(title);
                 currentNum++;
                 double lat = Double.parseDouble(latitude);
                 double log = Double.parseDouble(longitude);
@@ -346,8 +347,10 @@ public class MapsActivity extends AppCompatActivity
                 else{
                     mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 }
-            }
 
+                String event_info = title + ",  EventType: " +eventtype + ", Date: " + date;
+                list_event.add(event_info);
+            }
 
         }
         return ret1;
@@ -364,7 +367,6 @@ public class MapsActivity extends AppCompatActivity
                     //Log.d("Stitch", "Number of collections: " + task.getResult());
                     String t = task.getResult().toString();
                     String obj = parse(t);
-
 
                 }
                 else {
@@ -508,7 +510,6 @@ public class MapsActivity extends AppCompatActivity
     }
 
     public void pullEvents()  {
-        System.out.println("here");
         Thread thread = new Thread(){
             @Override
             public void run() {
@@ -522,6 +523,7 @@ public class MapsActivity extends AppCompatActivity
                 okhttp3.Request requestOther = new okhttp3.Request.Builder()
                         .url("http://api.eventful.com/json/events/search?&location=77840&app_key=GCgRf2pzQqXhFTZb").build();
                 eventHelper(client, requestOther, "Other", "kid");
+
 
 
     }

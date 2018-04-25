@@ -65,9 +65,9 @@
         <activity android:name=".EmailActivity"
             android:label="EmailActivity"/>
         <activity android:name=".HelpActivity"
-            android:label="@string/title_activity_help"/>
+            android:label="title_activity_help"/>
         <activity android:name=".FilterActivity"
-            android:label="@string/title_activity_filter"></activity>
+            android:label="title_activity_filter"></activity>
 
     </application>
 </manifest>
