@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".FilterActivity">
+        tools:context="com.maple.mallr.mongo.FilterActivity">
 
         <TextView
         android:id="@+id/contact_form_title"
@@ -24,18 +24,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/subj"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
+        android:hint="Subject"
+        android:inputType="textEmailSubject"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/contact_form_title" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/phone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -55,10 +55,10 @@
         android:hint="Phone"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/subj" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/feedback"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:layout_marginTop="8dp"
@@ -73,9 +73,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/phone" />
 
     <Button
+        android:id="@+id/sendMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -88,5 +89,5 @@
         android:text="Submit"
         android:textColor="#fff"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/feedback" />
     </android.support.constraint.ConstraintLayout>
