@@ -211,9 +211,7 @@ public class MapsActivity extends AppCompatActivity
     /** Called when the user taps the Send button */
     public void sendMessage(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+
         Bundle bun = new Bundle();
         bun.putString("name", first_name);
         bun.putString("email", email);
