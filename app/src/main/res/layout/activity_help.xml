@@ -1,21 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HelpActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:background="@android:color/background_light"
+android:orientation="vertical"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".HelpActivity">
 
     <TextView
-        android:id="@+id/helpText"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:text="The help page is currently being tweaked..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_marginTop="100dp" />
-</android.support.constraint.ConstraintLayout>
+        android:textColor="#2a14e9"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="Common Questions" />
+
+    <ScrollView android:id="@+id/ScrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="6dip"
+        >
+
+        <TextView
+            android:id="@+id/Q1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dip"
+            android:textColor="@android:color/black"
+            android:textSize="20dp"
+            android:text="Q: How can I find an event I want to attend?"/>
+        <TextView
+            android:id="@+id/A1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:padding="8dip"
+            android:text="A: You can search the map for events or you can choose to scroll through the list." />
+        <TextView
+            android:id="@+id/Q2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dip"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Q: Can I view events that my friends plan on going to?"/>
+        <TextView
+            android:id="@+id/A2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:padding="8dip"
+            android:text="A: Yes, as long as the event isn't private, and you and your friend have both logged in to this app. If they have not used this app yet we will not have access to their events." />
+
+        <TextView
+            android:id="@+id/Q3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dip"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Q: Can I view events that my friends plan on going to?"/>
+        <TextView
+            android:id="@+id/A3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:padding="8dip"
+            android:text="A: Yes, as long as the event isn't private, and you and your friend have both logged in to this app. If they have not used this app yet we will not have access to their events." />
+
+        <TextView
+            android:id="@+id/Q4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dip"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Q: Can I view events that my friends plan on going to?"/>
+        <TextView
+            android:id="@+id/A4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:padding="8dip"
+            android:text="A: Yes, as long as the event isn't private, and you and your friend have both logged in to this app. If they have not used this app yet we will not have access to their events." />
+
+        <TextView
+            android:id="@+id/Q5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dip"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Q: Can I view events that my friends plan on going to?"/>
+        <TextView
+            android:id="@+id/A5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:padding="8dip"
+            android:text="A: Yes, as long as the event isn't private, and you and your friend have both logged in to this app. If they have not used this app yet we will not have access to their events." />
+
+        <TextView
+            android:id="@+id/Q6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dip"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="Q: Can I view events that my friends plan on going to?"/>
+        <TextView
+            android:id="@+id/A6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:padding="8dip"
+            android:text="A: Yes, as long as the event isn't private, and you and your friend have both logged in to this app. If they have not used this app yet we will not have access to their events." />
+
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>
