@@ -37,7 +37,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.0'
     implementation 'com.google.android.gms:play-services-places:15.0.0'
-
+    //intro
+    compile 'agency.tango.android:material-intro-screen:0.0.5'
     compile 'org.mongodb:stitch:3.0.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
