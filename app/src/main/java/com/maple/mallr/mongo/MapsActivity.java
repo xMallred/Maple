@@ -156,6 +156,12 @@ public class MapsActivity extends AppCompatActivity
     int currentNum;
     int previousNum;
 
+    Boolean music = false;
+    Boolean sports = false;
+    Boolean other = false;
+    String eventFilter = "none";
+    ListFragment fragment = new ListFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,7 +208,6 @@ public class MapsActivity extends AppCompatActivity
         stitchClient = stitchClientTask.getResult();
         login();
 
-        ListFragment fragment = new ListFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.My_Container_1_ID, fragment);
@@ -210,7 +215,6 @@ public class MapsActivity extends AppCompatActivity
         //
         // Change the events being passed to valid arraylist
         //
-        extras.putStringArrayList("eventList", listOfEvents);
         //Set the fragment initially
 
 
@@ -242,7 +246,7 @@ public class MapsActivity extends AppCompatActivity
         bun.putString("picture",picture);
         bun.putString("fb", fb);
         intent.putExtras(bun);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
 
     }
     /** Called when the user taps the Send button */
@@ -336,20 +340,18 @@ public class MapsActivity extends AppCompatActivity
                 listOfEvents.add(id);
                 nameOfEvents.add(title);
 
+                if(eventtype.equals(eventFilter) || eventFilter.equals("none")) {
+                    if (age.equals("kid")) {
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    } else if (age.equals("teenager")) {
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    } else {
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    }
 
-                if(age.equals("kid")) {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    String event_info = title + ",  EventType: " + eventtype + ", Date: " + date;
+                    list_event.add(event_info);
                 }
-                else if(age.equals("teenager"))
-                {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                }
-                else{
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                }
-
-                String event_info = title + ",  EventType: " +eventtype + ", Date: " + date;
-                list_event.add(event_info);
             }
 
         }
@@ -595,6 +597,32 @@ public class MapsActivity extends AppCompatActivity
             thread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                music = data.getBooleanExtra("music",false);
+                sports = data.getBooleanExtra("sports",false);
+                other = data.getBooleanExtra("other",false);
+
+                if(music)
+                    eventFilter = "music";
+                else if(sports)
+                    eventFilter = "sports";
+                else if(other)
+                    eventFilter = "Other";
+                else
+                    eventFilter = "none";
+
+                mMap.clear();
+                nameOfEvents.clear();
+                refreshList();
+
+                fragment.refreshList(eventFilter);
+            }
         }
     }
 }

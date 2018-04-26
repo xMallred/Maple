@@ -52,6 +52,7 @@ public class ListFragment extends Fragment {
     MongoClient.Collection coll;
     ArrayList<String> list_event = new ArrayList<>();
     ArrayList<String> nameOfEvents = new ArrayList<>();
+    String eventFilter;
 
     public ListFragment() {
         // Required empty public constructor
@@ -89,7 +90,7 @@ public class ListFragment extends Fragment {
                 } else {
                     Log.e("stitch", "failed to log in anonymously", task.getException());
                 }
-                refreshList();
+                refreshList("none");
             }
         });
     }
@@ -116,9 +117,11 @@ public class ListFragment extends Fragment {
 
             if(!nameOfEvents.contains(title))
             {
-                nameOfEvents.add(title);
-                String event_info = title + ",  EventType: " +eventtype + ", Date: " + date;
-                list_event.add(event_info);
+                if(eventtype.equals(eventFilter) || eventFilter.equals("none")) {
+                    nameOfEvents.add(title);
+                    String event_info = title + ",  EventType: " + eventtype + ", Date: " + date;
+                    list_event.add(event_info);
+                }
             }
 
 
@@ -129,17 +132,17 @@ public class ListFragment extends Fragment {
     };
 
 
-    public void refreshList()
+    public void refreshList(final String str)
     {
+        System.out.println("here");
         stitchClient.executeFunction("finddocs").addOnCompleteListener(new OnCompleteListener<Object>() {
             @Override
             public void onComplete(@NonNull Task task){
                 if(task.isSuccessful()){
-                    //Log.d("Stitch", "Number of collections: " + task.getResult());
                     String t = task.getResult().toString();
+                    eventFilter = str;
+                    list_event.clear();
                     String obj = parse(t);
-                    String[] eventText = {"Event 1", "Event 2", "event 3",
-                            "event 4", "etc"};
 
                     final ArrayAdapter<String> listViewArrayAdapter;
                     List<String> eventList = new ArrayList<>(list_event);

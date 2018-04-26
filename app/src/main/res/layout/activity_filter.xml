@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FilterActivity">
+    tools:context=".FilterActivity"
+    android:background="@mipmap/background2">
 
     <TextView
         android:id="@+id/textView3"
@@ -15,8 +16,51 @@
         android:gravity="center_horizontal"
         android:paddingTop="5dp"
         android:text="Filters"
-        android:textColor="@color/cardview_dark_background"
+        android:textColor="@color/com_facebook_likeview_text_color"
         android:textSize="75sp" />
 
+    <Switch
+        android:id="@+id/mySwitchMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="110dp"
+        android:paddingLeft="20dp"
+        android:text="Music Only"
+        android:textColor="@color/cardview_light_background"/>
 
-</LinearLayout>
+    <Switch
+        android:id="@+id/mySwitchSports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="180dp"
+        android:paddingLeft="20dp"
+        android:text="Sports Only"
+        android:textColor="@color/cardview_light_background"/>
+    <Switch
+        android:id="@+id/mySwitchOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="250dp"
+        android:paddingLeft="20dp"
+        android:text="Other Events Only"
+        android:textColor="@color/cardview_light_background"/>
+
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mySwitchOther"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="Refresh"
+        android:background="@color/black_overlay"
+        android:textColor="#a4c639"/>
+
+
+</RelativeLayout>
