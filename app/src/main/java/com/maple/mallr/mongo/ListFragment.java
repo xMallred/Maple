@@ -55,6 +55,7 @@ public class ListFragment extends Fragment {
     ArrayList<String> list_event = new ArrayList<>();
     ArrayList<String> displayEventList = new ArrayList<>();
     ArrayList<String> nameOfEvents = new ArrayList<>();
+    String eventFilter;
 
     public ListFragment() {
         // Required empty public constructor
@@ -98,7 +99,7 @@ public class ListFragment extends Fragment {
                 } else {
                     Log.e("stitch", "failed to log in anonymously", task.getException());
                 }
-                refreshList();
+                refreshList("none");
             }
         });
     }
@@ -129,6 +130,7 @@ public class ListFragment extends Fragment {
                 nameOfEvents.add(title);
                 String event_info = "Event: " + title + ", EventType: " + eventtype + ", Address: " + address + ", Venue: " + venue + ", Date: " + date+ ", Latitude: " + latitude + ", Longitude: " + longitude+";";
                 list_event.add(event_info);
+
             }
 
 
@@ -139,14 +141,16 @@ public class ListFragment extends Fragment {
     };
 
 
-    public void refreshList()
+    public void refreshList(final String str)
     {
+        System.out.println("here");
         stitchClient.executeFunction("finddocs").addOnCompleteListener(new OnCompleteListener<Object>() {
             @Override
             public void onComplete(@NonNull Task task){
                 if(task.isSuccessful()){
-                    //Log.d("Stitch", "Number of collections: " + task.getResult());
                     String t = task.getResult().toString();
+                    eventFilter = str;
+                    list_event.clear();
                     String obj = parse(t);
 
                         final ArrayAdapter<String> listViewArrayAdapter;

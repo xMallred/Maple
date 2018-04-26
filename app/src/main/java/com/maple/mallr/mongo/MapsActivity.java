@@ -134,7 +134,7 @@ private String myString;
 
     private Handler _handler;
     private Runnable _refresher;
-    ArrayList<String> fb= new ArrayList<>();
+
 
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
@@ -156,6 +156,12 @@ private String myString;
     boolean firstLoad = true;
     int currentNum;
     int previousNum;
+
+    Boolean music = false;
+    Boolean sports = false;
+    Boolean other = false;
+    String eventFilter = "none";
+    ListFragment fragment = new ListFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,9 +215,6 @@ private String myString;
         //
         // Change the events being passed to valid arraylist
         //
-
-
-        extras.putStringArrayList("eventList", listOfEvents);
         //Set the fragment initially
 
 
@@ -239,7 +242,7 @@ private String myString;
         bun.putString("email", email);
         bun.putString("picture", picture);
         myintent.putExtras(bun);
-        startActivity(myintent);
+        startActivityForResult(myintent, 1);
 
     }
     /** Called when the user taps the Send button */
@@ -329,20 +332,18 @@ private String myString;
                 listOfEvents.add(id);
                 nameOfEvents.add(title);
 
+                if(eventtype.equals(eventFilter) || eventFilter.equals("none")) {
+                    if (age.equals("kid")) {
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    } else if (age.equals("teenager")) {
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    } else {
+                        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    }
 
-                if(age.equals("kid")) {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    String event_info = title + ",  EventType: " + eventtype + ", Date: " + date;
+                    list_event.add(event_info);
                 }
-                else if(age.equals("teenager"))
-                {
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                }
-                else{
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, log)).title(title).snippet(eventtype + ", Date: " + date).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                }
-
-                String event_info = title + ",  EventType: " +eventtype + ", Date: " + date;
-                list_event.add(event_info);
             }
 
         }
@@ -399,11 +400,8 @@ private String myString;
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
 
-        if(firstLoad) {
-            // Get the current location of the device and set the position of the map.
-            getDeviceLocation();
-            firstLoad=false;
-        }
+        // Get the current location of the device and set the position of the map.
+        getDeviceLocation();
 
 
     }
@@ -482,7 +480,6 @@ private String myString;
         }
 
     }
-
 
     /**
      * Updates the map's UI settings based on whether the user has granted location permission.
@@ -607,6 +604,32 @@ private String myString;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)), 15));
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                music = data.getBooleanExtra("music",false);
+                sports = data.getBooleanExtra("sports",false);
+                other = data.getBooleanExtra("other",false);
+
+                if(music)
+                    eventFilter = "music";
+                else if(sports)
+                    eventFilter = "sports";
+                else if(other)
+                    eventFilter = "Other";
+                else
+                    eventFilter = "none";
+
+                mMap.clear();
+                nameOfEvents.clear();
+                refreshList();
+
+                fragment.refreshList(eventFilter);
+            }
+        }
     }
 }
 
