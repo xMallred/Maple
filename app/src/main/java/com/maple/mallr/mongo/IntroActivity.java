@@ -17,6 +17,7 @@ public class IntroActivity extends MaterialIntroActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        enableLastSlideAlphaExitTransition(true);
 
         addSlide(new SlideFragmentBuilder()
                         .backgroundColor(R.color.colorPrimaryDark)
@@ -31,6 +32,22 @@ public class IntroActivity extends MaterialIntroActivity {
                         showMessage("Finding events near you");
                     }
                 }, "Maple"));
+        addSlide(new CustomSlide());
+        //        addSlide(new SlideFragmentBuilder()
+//                        .backgroundColor(R.color.colorPrimaryDark)
+//                        .buttonsColor(R.color.colorAccent)
+//                        //.possiblePermissions(new String[]{Manifest.permission.CALL_PHONE, Manifest.permission.READ_SMS})
+//                        //.neededPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+//                        .image(R.drawable.check)
+//                        .title("Continue")
+//                        .description("")
+//                        .build(),
+//                new MessageButtonBehaviour(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        showMessage("");
+//                    }
+//                }, "Maple"));
         addSlide(new SlideFragmentBuilder()
                         .backgroundColor(R.color.colorPrimaryDark)
                         .buttonsColor(R.color.colorAccent)
