@@ -77,6 +77,9 @@
             android:name=".IntroActivity"
             android:theme="@style/Theme.Intro" />
         <activity
+            android:name=".InfoActivity"
+            android:theme="@style/Theme.Intro" />
+        <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:windowSoftInputMode="stateHidden" />

@@ -165,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
 
                                myintent.putExtras(bun);
                                startActivity(myintent);
+                               Intent intent = new Intent(MainActivity.this, InfoActivity.class);
+                               startActivity(intent);
 
                            }
 
@@ -177,6 +179,10 @@ public class MainActivity extends AppCompatActivity {
                            public void onError(FacebookException error) {
                                Intent myintent = new Intent(MainActivity.this, MapsActivity.class);
                                MainActivity.this.startActivity(myintent);
+
+
+                               Intent intent = new Intent(MainActivity.this, InfoActivity.class);
+                               startActivity(intent);
                            }
                        });
                    }
