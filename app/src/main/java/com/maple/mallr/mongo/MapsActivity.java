@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.facebook.AccessToken;
@@ -104,13 +103,13 @@ import okhttp3.OkHttpClient;
 /**
  * An activity that displays a map showing the place at the device's current location.
  */
- public class MapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback, ListFragment.OnFragmentInteractionListener {
+public class MapsActivity extends AppCompatActivity
+        implements OnMapReadyCallback {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
-private String myString;
+
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -134,7 +133,10 @@ private String myString;
 
     private Handler _handler;
     private Runnable _refresher;
-
+    String first_name;
+    String email;
+    String picture;
+    String fb;
 
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
@@ -150,10 +152,7 @@ private String myString;
     ArrayList<String> listOfEvents = new ArrayList<>();
     ArrayList<String> nameOfEvents = new ArrayList<>();
     ArrayList<String> list_event = new ArrayList<>();
-    String email;
-    String name;
-    String picture;
-    boolean firstLoad = true;
+
     int currentNum;
     int previousNum;
 
@@ -168,9 +167,11 @@ private String myString;
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            name = extras.getString("name");
+            first_name = extras.getString("name");
             email = extras.getString("email");
             picture = extras.getString("picture");
+            fb = extras.getString("fb");
+            //The key argument here must match that used in the other activity
         }
         currentNum = 0;
         previousNum = 0;
@@ -207,7 +208,6 @@ private String myString;
         stitchClient = stitchClientTask.getResult();
         login();
 
-        ListFragment fragment = new ListFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.My_Container_1_ID, fragment);
@@ -224,46 +224,54 @@ private String myString;
 
     /** Called when the user taps the Send button */
     public void sendMessage(View view) {
-        Intent myintent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
+
         Bundle bun = new Bundle();
-        bun.putString("name", name);
+        bun.putString("name", first_name);
         bun.putString("email", email);
-        bun.putString("picture", picture);
-        myintent.putExtras(bun);
-        startActivity(myintent);
+        bun.putString("picture",picture);
+        bun.putString("fb", fb);
+        intent.putExtras(bun);
+        startActivity(intent);
 
     }
 
     /** Called when the user taps the Send button */
     public void filter(View view) {
-        Intent myintent = new Intent(this, FilterActivity.class);
+        Intent intent = new Intent(this, FilterActivity.class);
+
         Bundle bun = new Bundle();
-        bun.putString("name", name);
+        bun.putString("name", first_name);
         bun.putString("email", email);
-        bun.putString("picture", picture);
-        myintent.putExtras(bun);
-        startActivityForResult(myintent, 1);
+        bun.putString("picture",picture);
+        bun.putString("fb", fb);
+        intent.putExtras(bun);
+        startActivityForResult(intent, 1);
 
     }
     /** Called when the user taps the Send button */
     public void feedback(View view) {
-        Intent myintent = new Intent(this, EmailActivity.class);
+        Intent intent = new Intent(this, EmailActivity.class);
+
         Bundle bun = new Bundle();
-        bun.putString("name", name);
+        bun.putString("name", first_name);
         bun.putString("email", email);
-        bun.putString("picture", picture);
-        myintent.putExtras(bun);
-        startActivity(myintent);
+        bun.putString("picture",picture);
+        bun.putString("fb", fb);
+        intent.putExtras(bun);
+        startActivity(intent);
 
     }/** Called when the user taps the Send button */
     public void help(View view) {
-        Intent myintent = new Intent(this, HelpActivity.class);
+        Intent intent = new Intent(this, HelpActivity.class);
+
         Bundle bun = new Bundle();
-        bun.putString("name", name);
+        bun.putString("name", first_name);
         bun.putString("email", email);
-        bun.putString("picture", picture);
-        myintent.putExtras(bun);
-        startActivity(myintent);
+        bun.putString("picture",picture);
+        bun.putString("fb", fb);
+        intent.putExtras(bun);
+        startActivity(intent);
 
     }
 
@@ -590,20 +598,6 @@ private String myString;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-    public void onFragmentInteraction(String string) {
-        this.myString = string;
-        String title = StringUtils.substringBetween(myString, "Event: ", ",");
-        String latitude = StringUtils.substringBetween(myString, "Latitude: ", ",");
-        String longitude = StringUtils.substringBetween(myString, "Longitude: ", ";");
-
-        Toast.makeText(this, title, Toast.LENGTH_LONG).show();
-        // Need to find the matching collection in the db to pull lat and long.
-        // then just update zoom location.
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)), 15));
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
