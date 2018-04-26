@@ -61,7 +61,7 @@ public class FilterActivity extends AppCompatActivity {
                     setResult(RESULT_OK, i);
                     finish();
                 }
-                if(switchSports.isChecked())
+                else if(switchSports.isChecked())
                 {
                     Intent i = new Intent();
                     sports = true;
@@ -71,10 +71,18 @@ public class FilterActivity extends AppCompatActivity {
                     setResult(RESULT_OK, i);
                     finish();
                 }
-                if(switchOther.isChecked())
+                else if(switchOther.isChecked())
                 {
                     Intent i = new Intent();
                     other = true;
+                    i.putExtra("music", music);
+                    i.putExtra("sports", sports);
+                    i.putExtra("other", other);
+                    setResult(RESULT_OK, i);
+                    finish();
+                }
+                else{
+                    Intent i = new Intent();
                     i.putExtra("music", music);
                     i.putExtra("sports", sports);
                     i.putExtra("other", other);

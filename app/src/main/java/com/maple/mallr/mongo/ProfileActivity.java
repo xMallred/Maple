@@ -60,11 +60,11 @@ public class ProfileActivity extends AppCompatActivity {
 
             // Capture the layout's TextView and set the string as its text
         TextView textView = (TextView) findViewById(R.id.userName);
-        textView.setText(first_name);
+        //textView.setText(first_name);
         textView.setTextColor(Color.BLACK);
 
         TextView textView2 = (TextView) findViewById(R.id.userDescription);
-        textView2.setText(email);
+        textView2.setText("m.allred40@gmail.com");
         textView2.setTextColor(Color.BLACK);
 
 

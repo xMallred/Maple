@@ -141,10 +141,13 @@ public class ListFragment extends Fragment {
                 if(task.isSuccessful()){
                     String t = task.getResult().toString();
                     eventFilter = str;
+                    System.out.println(eventFilter);
+                    nameOfEvents.clear();
                     list_event.clear();
                     String obj = parse(t);
 
                     final ArrayAdapter<String> listViewArrayAdapter;
+                    System.out.println(list_event);
                     List<String> eventList = new ArrayList<>(list_event);
                     if(!eventList.isEmpty()) {
                         listViewArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, eventList);
