@@ -46,12 +46,13 @@ import java.util.List;
 public class ListFragment extends Fragment {
 
     ArrayList<String> listOfEvent;
-
+    private OnFragmentInteractionListener mListener;
     StitchClient stitchClient;
     MongoClient client;
     MongoClient.Collection coll;
     ArrayList<String> list_event = new ArrayList<>();
     ArrayList<String> nameOfEvents = new ArrayList<>();
+    ArrayList<String> displayEventList = new ArrayList<>();
     String eventFilter;
 
     public ListFragment() {
@@ -73,7 +74,13 @@ public class ListFragment extends Fragment {
             //listOfEvents = savedInstanceState.getStringArrayList("eventList");
 
         login();
-
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                String event = list_event.get(position);
+                                mListener.onFragmentInteraction(event);
+                           }
+       });
          return view;
     }
 
@@ -113,13 +120,14 @@ public class ListFragment extends Fragment {
             String eventtype = StringUtils.substringBetween(temp, "EventType=", ",");
             String age = StringUtils.substringBetween(temp, "Age=", ",");
             String date = StringUtils.substringBetween(temp, "Date=", "}");
+            displayEventList.add(title + " @ " + venue + "\nEventType: " + eventtype + "\nAddress: " + address + "\nDate: " + date);
 
 
             if(!nameOfEvents.contains(title))
             {
                 if(eventtype.equals(eventFilter) || eventFilter.equals("none")) {
                     nameOfEvents.add(title);
-                    String event_info = title + ",  EventType: " + eventtype + ", Date: " + date;
+                    String event_info = "Event: " + title + ", EventType: " + eventtype + ", Address: " + address + ", Venue: " + venue + ", Date: " + date+ ", Latitude: " + latitude + ", Longitude: " + longitude+";";
                     list_event.add(event_info);
                 }
             }
@@ -147,8 +155,7 @@ public class ListFragment extends Fragment {
                     final ArrayAdapter<String> listViewArrayAdapter;
                     List<String> eventList = new ArrayList<>(list_event);
                     if(!eventList.isEmpty()) {
-                        listViewArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, eventList);
-                        lv.setAdapter(listViewArrayAdapter);
+                        listViewArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, displayEventList);lv.setAdapter(listViewArrayAdapter);
                         lv.invalidateViews();
                     }
                 }
@@ -159,5 +166,21 @@ public class ListFragment extends Fragment {
             }
         });
     }
+    public interface OnFragmentInteractionListener {
+      void onFragmentInteraction(String string);
+   }
+    public void onAttach(Context context) {
+               super.onAttach(context);
+              if (context instanceof OnFragmentInteractionListener) {
+                       mListener = (OnFragmentInteractionListener) context;
+                   } else {
+                        throw new RuntimeException(context.toString()
+                                      + " must implement OnFragmentInteractionListener");
+                   }
+            }
+    public void onDetach() {
+                super.onDetach();
+                mListener = null;
+            }
 
 }

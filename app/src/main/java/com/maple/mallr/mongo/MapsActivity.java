@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.facebook.AccessToken;
@@ -104,12 +105,12 @@ import okhttp3.OkHttpClient;
  * An activity that displays a map showing the place at the device's current location.
  */
 public class MapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback {
+       implements OnMapReadyCallback, ListFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
-
+    private String myString;
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -625,6 +626,20 @@ public class MapsActivity extends AppCompatActivity
             }
         }
     }
+    public void onFragmentInteraction(String string) {
+               this.myString = string;
+                String title = StringUtils.substringBetween(myString, "Event: ", ",");
+                String latitude = StringUtils.substringBetween(myString, "Latitude: ", ",");
+                String longitude = StringUtils.substringBetween(myString, "Longitude: ", ";");
+
+                        Toast.makeText(this, title, Toast.LENGTH_LONG).show();
+                // Need to find the matching collection in the db to pull lat and long.
+                        // then just update zoom location.
+
+                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                                        new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)), 15));
+
+                    }
 }
 
 

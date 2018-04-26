@@ -42,6 +42,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:gravity="center"
+
+        android:textColor="@color/black_overlay"
         android:text="Something about the user..."
         android:textSize="18sp"
         android:textStyle="italic"
@@ -81,6 +83,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Events"
+
+                android:textColor="@color/black_overlay"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -110,6 +114,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:textColor="@color/black_overlay"
                 android:text="Friends"
                 android:textSize="18sp"
                 android:textStyle="bold" />

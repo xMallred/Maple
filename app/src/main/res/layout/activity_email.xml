@@ -16,7 +16,7 @@
             Things that are good or
                 bad, we want to know!"
         android:textAlignment="center"
-        android:textColor="#2a14e9"
+        android:textColor="#848389"
         android:textSize="30sp"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
