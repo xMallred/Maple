@@ -13,32 +13,32 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends AppCompatActivity {
 
-    String first_name;
+    ArrayList<String> fb= new ArrayList<>();
+    String name;
     String email;
     String picture;
-    String fb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            first_name = extras.getString("name");
+            name = extras.getString("name");
             email = extras.getString("email");
             picture = extras.getString("picture");
-            fb = extras.getString("fb");
-            //The key argument here must match that used in the other activity
         }
-            // Get the Intent that started this activity and extract the string
-            Intent intent = getIntent();
+
+
 
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
@@ -60,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             // Capture the layout's TextView and set the string as its text
         TextView textView = (TextView) findViewById(R.id.userName);
-        textView.setText(first_name);
+        textView.setText(name);
         textView.setTextColor(Color.BLACK);
 
         TextView textView2 = (TextView) findViewById(R.id.userDescription);

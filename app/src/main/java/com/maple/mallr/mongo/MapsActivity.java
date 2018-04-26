@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.facebook.AccessToken;
@@ -103,13 +104,13 @@ import okhttp3.OkHttpClient;
 /**
  * An activity that displays a map showing the place at the device's current location.
  */
-public class MapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback {
+ public class MapsActivity extends AppCompatActivity
+        implements OnMapReadyCallback, ListFragment.OnFragmentInteractionListener {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
-
+private String myString;
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -133,10 +134,7 @@ public class MapsActivity extends AppCompatActivity
 
     private Handler _handler;
     private Runnable _refresher;
-    String first_name;
-    String email;
-    String picture;
-    String fb;
+    ArrayList<String> fb= new ArrayList<>();
 
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
@@ -152,7 +150,10 @@ public class MapsActivity extends AppCompatActivity
     ArrayList<String> listOfEvents = new ArrayList<>();
     ArrayList<String> nameOfEvents = new ArrayList<>();
     ArrayList<String> list_event = new ArrayList<>();
-
+    String email;
+    String name;
+    String picture;
+    boolean firstLoad = true;
     int currentNum;
     int previousNum;
 
@@ -161,11 +162,9 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            first_name = extras.getString("name");
+            name = extras.getString("name");
             email = extras.getString("email");
             picture = extras.getString("picture");
-            fb = extras.getString("fb");
-            //The key argument here must match that used in the other activity
         }
         currentNum = 0;
         previousNum = 0;
@@ -210,6 +209,8 @@ public class MapsActivity extends AppCompatActivity
         //
         // Change the events being passed to valid arraylist
         //
+
+
         extras.putStringArrayList("eventList", listOfEvents);
         //Set the fragment initially
 
@@ -220,54 +221,46 @@ public class MapsActivity extends AppCompatActivity
 
     /** Called when the user taps the Send button */
     public void sendMessage(View view) {
-        Intent intent = new Intent(this, ProfileActivity.class);
-
+        Intent myintent = new Intent(this, ProfileActivity.class);
         Bundle bun = new Bundle();
-        bun.putString("name", first_name);
+        bun.putString("name", name);
         bun.putString("email", email);
-        bun.putString("picture",picture);
-        bun.putString("fb", fb);
-        intent.putExtras(bun);
-        startActivity(intent);
+        bun.putString("picture", picture);
+        myintent.putExtras(bun);
+        startActivity(myintent);
 
     }
 
     /** Called when the user taps the Send button */
     public void filter(View view) {
-        Intent intent = new Intent(this, FilterActivity.class);
-
+        Intent myintent = new Intent(this, FilterActivity.class);
         Bundle bun = new Bundle();
-        bun.putString("name", first_name);
+        bun.putString("name", name);
         bun.putString("email", email);
-        bun.putString("picture",picture);
-        bun.putString("fb", fb);
-        intent.putExtras(bun);
-        startActivity(intent);
+        bun.putString("picture", picture);
+        myintent.putExtras(bun);
+        startActivity(myintent);
 
     }
     /** Called when the user taps the Send button */
     public void feedback(View view) {
-        Intent intent = new Intent(this, EmailActivity.class);
-
+        Intent myintent = new Intent(this, EmailActivity.class);
         Bundle bun = new Bundle();
-        bun.putString("name", first_name);
+        bun.putString("name", name);
         bun.putString("email", email);
-        bun.putString("picture",picture);
-        bun.putString("fb", fb);
-        intent.putExtras(bun);
-        startActivity(intent);
+        bun.putString("picture", picture);
+        myintent.putExtras(bun);
+        startActivity(myintent);
 
     }/** Called when the user taps the Send button */
     public void help(View view) {
-        Intent intent = new Intent(this, HelpActivity.class);
-
+        Intent myintent = new Intent(this, HelpActivity.class);
         Bundle bun = new Bundle();
-        bun.putString("name", first_name);
+        bun.putString("name", name);
         bun.putString("email", email);
-        bun.putString("picture",picture);
-        bun.putString("fb", fb);
-        intent.putExtras(bun);
-        startActivity(intent);
+        bun.putString("picture", picture);
+        myintent.putExtras(bun);
+        startActivity(myintent);
 
     }
 
@@ -406,8 +399,11 @@ public class MapsActivity extends AppCompatActivity
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
 
-        // Get the current location of the device and set the position of the map.
-        getDeviceLocation();
+        if(firstLoad) {
+            // Get the current location of the device and set the position of the map.
+            getDeviceLocation();
+            firstLoad=false;
+        }
 
 
     }
@@ -486,6 +482,7 @@ public class MapsActivity extends AppCompatActivity
         }
 
     }
+
 
     /**
      * Updates the map's UI settings based on whether the user has granted location permission.
@@ -596,6 +593,20 @@ public class MapsActivity extends AppCompatActivity
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public void onFragmentInteraction(String string) {
+        this.myString = string;
+        String title = StringUtils.substringBetween(myString, "Event: ", ",");
+        String latitude = StringUtils.substringBetween(myString, "Latitude: ", ",");
+        String longitude = StringUtils.substringBetween(myString, "Longitude: ", ";");
+
+        Toast.makeText(this, title, Toast.LENGTH_LONG).show();
+        // Need to find the matching collection in the db to pull lat and long.
+        // then just update zoom location.
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)), 15));
+
     }
 }
 

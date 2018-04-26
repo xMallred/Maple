@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+
+import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +46,14 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends Fragment {
-
+    private OnFragmentInteractionListener mListener;
     ArrayList<String> listOfEvent;
 
     StitchClient stitchClient;
     MongoClient client;
     MongoClient.Collection coll;
     ArrayList<String> list_event = new ArrayList<>();
+    ArrayList<String> displayEventList = new ArrayList<>();
     ArrayList<String> nameOfEvents = new ArrayList<>();
 
     public ListFragment() {
@@ -72,7 +75,13 @@ public class ListFragment extends Fragment {
             //listOfEvents = savedInstanceState.getStringArrayList("eventList");
 
         login();
-
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String event = list_event.get(position);
+                mListener.onFragmentInteraction(event);
+            }
+        });
          return view;
     }
 
@@ -112,12 +121,13 @@ public class ListFragment extends Fragment {
             String eventtype = StringUtils.substringBetween(temp, "EventType=", ",");
             String age = StringUtils.substringBetween(temp, "Age=", ",");
             String date = StringUtils.substringBetween(temp, "Date=", "}");
+            displayEventList.add(title + " @ " + venue + "\nEventType: " + eventtype + "\nAddress: " + address + "\nDate: " + date);
 
 
             if(!nameOfEvents.contains(title))
             {
                 nameOfEvents.add(title);
-                String event_info = title + ",  EventType: " +eventtype + ", Date: " + date;
+                String event_info = "Event: " + title + ", EventType: " + eventtype + ", Address: " + address + ", Venue: " + venue + ", Date: " + date+ ", Latitude: " + latitude + ", Longitude: " + longitude+";";
                 list_event.add(event_info);
             }
 
@@ -138,14 +148,14 @@ public class ListFragment extends Fragment {
                     //Log.d("Stitch", "Number of collections: " + task.getResult());
                     String t = task.getResult().toString();
                     String obj = parse(t);
-                    String[] eventText = {"Event 1", "Event 2", "event 3",
-                            "event 4", "etc"};
 
-                    final ArrayAdapter<String> listViewArrayAdapter;
+                        final ArrayAdapter<String> listViewArrayAdapter;
                     List<String> eventList = new ArrayList<>(list_event);
                     if(!eventList.isEmpty()) {
-                        listViewArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, eventList);
+                        listViewArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, displayEventList);
+
                         lv.setAdapter(listViewArrayAdapter);
+
                         lv.invalidateViews();
                     }
                 }
@@ -154,7 +164,24 @@ public class ListFragment extends Fragment {
                 }
 
             }
+
+
         });
     }
-
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(String string);
+    }
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 }

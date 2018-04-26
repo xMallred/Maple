@@ -26,7 +26,6 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.common.util.IOUtils;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,6 +38,7 @@ import com.mongodb.stitch.android.services.mongodb.MongoClient;
 
 import junit.framework.TestResult;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +64,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import javax.json.Json;
 
@@ -73,15 +74,10 @@ import okhttp3.OkHttpClient;
 public class MainActivity extends AppCompatActivity {
 
     CallbackManager _callbackManager;
-    String email;
-    String first_name;
-    String facebook_id;
-    String profilepicURL;
+    ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         //Tutorial First run
 
 
@@ -115,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
                Thread thread = new Thread() {
+                   String email;
+                   String first_name;
+                   String facebook_id;
+                   String profilepicURL;
                    @Override
                    public void run() {
                        _callbackManager = CallbackManager.Factory.create();
@@ -132,16 +132,22 @@ public class MainActivity extends AppCompatActivity {
                                            public void onCompleted(JSONObject object, GraphResponse response) {
                                                Log.v("LoginActivity Response ", response.toString());
                                                Log.e("object", object.toString());
+
                                                try {
-                                                   email = object.getString("email");
+                                                   email = StringUtils.substringBetween(object.toString(), "\"email\":\"", "\"");
+                                                   System.out.println(email);
                                                    first_name = object.getString("name");
+                                                   System.out.println(first_name);
                                                    facebook_id = object.getString("id");
+                                                   System.out.println(facebook_id);
                                                    profilepicURL = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                                   System.out.println(profilepicURL);
 
                                                } catch (JSONException e) {
                                                    e.printStackTrace();
                                                }
                                                profilepicURL = "graph.facebook.com/" + facebook_id + "/picture?type=large";
+
                                            }
                                        });
                                Bundle parameters = new Bundle();
@@ -154,10 +160,9 @@ public class MainActivity extends AppCompatActivity {
                                bun.putString("name", first_name);
                                bun.putString("email", email);
                                bun.putString("picture", profilepicURL);
-                               bun.putString("fb", loginResult.getAccessToken().getToken());
 
                                myintent.putExtras(bun);
-                               MainActivity.this.startActivity(myintent);
+                               startActivity(myintent);
 
                            }
 
