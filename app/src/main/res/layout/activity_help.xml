@@ -146,6 +146,18 @@ tools:context=".HelpActivity">
             android:padding="8dip"
             android:text="A: Events are automatically updated when the application is opened. There is a select number of sources it currently pulls from, but we hope to expand this to improve upon event selection." />
 
+        <Button
+            android:id="@+id/helpBtn"
+            android:onClick="tutorial"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@id/fdbkBtn"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="80dp"
+            android:background="@drawable/round_button"
+            android:text="Tutorial"
+            android:textColor="#fff" />
     </LinearLayout>
 </ScrollView>
 </LinearLayout>

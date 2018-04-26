@@ -82,8 +82,8 @@
 
     <string name="title_activity_help">HelpActivity</string>
 
-    <string name = "Intro">"Welcome To Maple our app...(info about our app and what it does then we can add a statement here about
-    how our app is meant to be used and what it can bring?)</string>
+    <string name = "Intro">"Welcome To Maple our app. This application is here to make planning events around you faster and easier than ever! This product is to show current and future events near your location,you can filter and see the details to such events on the map itself. This appplication will need access to your location
+    to be able to let you know about events around you. Please use this application as intended to continue please agree and tap next.</string>
     <string name="check_to_pass">I accept terms and conditions.</string>
     <string name="error_message">Please Accept to Continue</string>
 
